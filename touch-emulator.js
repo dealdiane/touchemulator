@@ -203,9 +203,13 @@
             var f = TouchEmulator.multiTouchOffset;
             var deltaX = multiTouchStartPos.pageX - mouseEv.pageX;
             var deltaY = multiTouchStartPos.pageY - mouseEv.pageY;
+            var touchCount = TouchEmulator.multiTouchCount || 2;
 
             touchList.push(new Touch(eventTarget, 1, multiTouchStartPos, (deltaX*-1) - f, (deltaY*-1) + f));
-            touchList.push(new Touch(eventTarget, 2, multiTouchStartPos, deltaX+f, deltaY-f));
+
+            for(var i = 1; i < touchCount; i++) {
+                touchList.push(new Touch(eventTarget, i + 1, multiTouchStartPos, deltaX+(f*i), deltaY-(f*i)));
+            }
         } else {
             touchList.push(new Touch(eventTarget, 1, mouseEv, 0, 0));
         }
